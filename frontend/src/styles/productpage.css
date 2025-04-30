@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+.product:hover .add-to-cart {
+  display: block;
+}
+
+.product img {
+  transition: all 0.3s ease;
+}
+
+.pagination button {
+  font-weight: 800;
+}
+
+.pagination .active {
+  background-color: black;
+  color: white;
+}

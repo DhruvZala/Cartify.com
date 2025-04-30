@@ -1,0 +1,5 @@
+* {
+  font-family: "Dubai", "Arial", "Helvetica", sans-serif;
+  box-sizing: border-box
+}
+@import "tailwindcss";
