@@ -32,7 +32,7 @@ interface DashboardCardProps {
 }
 
 
-const API_BASE_URL = "http://localhost:5000/api/admin";
+const API_BASE_URL = "https://cartify-backend-4djv.onrender.com/api/admin";
 
 const DashboardCard: React.FC<DashboardCardProps> = ({
   title,

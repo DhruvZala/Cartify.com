@@ -98,7 +98,7 @@ const CartPage: React.FC = () => {
       async () => {
         try {
           const updateResponse = await axios.post(
-            "http://localhost:5000/api/products/update-quantities",
+            "https://cartify-backend-4djv.onrender.com/api/products/update-quantities",
             {
               items: cart.map((item) => ({
                 id: item.id,
@@ -126,7 +126,7 @@ const CartPage: React.FC = () => {
             console.log("Sending order data:", orderData);
 
             const orderResponse = await axios.post(
-              "http://localhost:5000/api/orders",
+              "https://cartify-backend-4djv.onrender.com/api/orders",
               orderData
             );
 

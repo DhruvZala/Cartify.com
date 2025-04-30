@@ -60,7 +60,7 @@ function UserDetail() {
 
         // Fetch orders
         const orderResponse = await axios.get(
-          `http://localhost:5000/api/orders/user/${userId}`
+          `https://cartify-backend-4djv.onrender.com/api/orders/user/${userId}`
         );
         if (orderResponse.data.success) {
           setOrders(orderResponse.data.orders);

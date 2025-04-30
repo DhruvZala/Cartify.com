@@ -36,7 +36,9 @@ const ProductPage: React.FC = () => {
 
       try {
         // Fetch products
-        const response = await axios.get(`http://localhost:5000/api/products?page=${currentPage}&limit=${productsPerPage}`);
+        const response = await axios.get(
+          `https://cartify-backend-4djv.onrender.com/api/products?page=${currentPage}&limit=${productsPerPage}`
+        );
         if (response.data && response.data.products) {
           setProducts(response.data.products);
           setTotalPages(response.data.totalPages);
@@ -112,7 +114,7 @@ const ProductPage: React.FC = () => {
       }
     } catch (error) {
       console.error("Error adding to cart:", error);
-      if ((error as Error).message === 'User not logged in') {
+      if ((error as Error).message === "User not logged in") {
         navigate("/login");
       }
     }
@@ -215,11 +217,11 @@ const ProductPage: React.FC = () => {
                       >
                         <ShoppingCart className="h-5 w-5" />
                         <span className="text-sm">
-                          {!isLoggedIn 
-                            ? "Login to Add" 
-                            : product.quantity === 0 
-                              ? "Out of Stock" 
-                              : "Add to Cart"}
+                          {!isLoggedIn
+                            ? "Login to Add"
+                            : product.quantity === 0
+                            ? "Out of Stock"
+                            : "Add to Cart"}
                         </span>
                       </button>
                     ) : (
@@ -263,7 +265,9 @@ const ProductPage: React.FC = () => {
             {totalPages > 1 && (
               <div className="flex justify-center mt-8 items-center space-x-2">
                 <button
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
                   disabled={currentPage === 1}
                   className={`flex items-center space-x-1 px-4 py-2 rounded-lg text-sm font-medium ${
                     currentPage === 1
@@ -292,7 +296,9 @@ const ProductPage: React.FC = () => {
                 </div>
 
                 <button
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
                   disabled={currentPage === totalPages}
                   className={`flex items-center space-x-1 px-4 py-2 rounded-lg text-sm font-medium ${
                     currentPage === totalPages

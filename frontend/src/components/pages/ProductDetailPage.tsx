@@ -36,7 +36,7 @@ const ProductDetailPage: React.FC = () => {
     const loadData = async () => {
       try {
         const [productResponse, cartData] = await Promise.all([
-          axios.get(`http://localhost:5000/api/products/${id}`),
+          axios.get(`https://cartify-backend-4djv.onrender.com/api/products/${id}`),
           getCartFromDatabase(),
         ]);
 

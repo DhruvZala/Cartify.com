@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from 'axios';
+import axios from "axios";
 
 export interface Product {
   rating: number;
@@ -16,12 +16,15 @@ export interface Product {
 
 export const getCartFromDatabase = async (): Promise<Product[]> => {
   try {
-    const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem("jwtToken");
     if (!token) return [];
 
-    const response = await axios.get('http://localhost:5000/api/cart', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await axios.get(
+      "https://cartify-backend-4djv.onrender.com/api/cart",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
     return response.data.cart.map((item: any) => ({
       id: item.productId,
@@ -31,7 +34,7 @@ export const getCartFromDatabase = async (): Promise<Product[]> => {
       quantity: item.quantity,
     }));
   } catch (error) {
-    console.error('Error fetching cart:', error);
+    console.error("Error fetching cart:", error);
     return [];
   }
 };
@@ -43,33 +46,46 @@ export const calculateCartCount = (cart: Product[]): number => {
   );
 };
 
-export const updateCartItem = async (product: Product, newQuantity: number): Promise<Product[]> => {
+export const updateCartItem = async (
+  product: Product,
+  newQuantity: number
+): Promise<Product[]> => {
   try {
-    const token = localStorage.getItem('jwtToken');
-    if (!token) throw new Error('User not logged in');
+    const token = localStorage.getItem("jwtToken");
+    if (!token) throw new Error("User not logged in");
 
     if (newQuantity === 0) {
       // Remove item
-      await axios.delete(`http://localhost:5000/api/cart/remove/${product.id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await axios.delete(
+        `https://cartify-backend-4djv.onrender.com/api/cart/remove/${product.id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
     } else {
       // Add/Update item
-      await axios.post('http://localhost:5000/api/cart/add', {
-        productId: product.id,
-        title: product.title,
-        price: product.price,
-        quantity: newQuantity,
-        image: product.image
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await axios.post(
+        "https://cartify-backend-4djv.onrender.com/api/cart/add",
+        {
+          productId: product.id,
+          title: product.title,
+          price: product.price,
+          quantity: newQuantity,
+          image: product.image,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
     }
 
     // Get updated cart
-    const response = await axios.get('http://localhost:5000/api/cart', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await axios.get(
+      "https://cartify-backend-4djv.onrender.com/api/cart",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
     return response.data.cart.map((item: any) => ({
       id: item.productId,
@@ -79,28 +95,38 @@ export const updateCartItem = async (product: Product, newQuantity: number): Pro
       quantity: item.quantity,
     }));
   } catch (error) {
-    console.error('Error updating cart:', error);
+    console.error("Error updating cart:", error);
     throw error;
   }
 };
 
-export const addProductToCart = async (product: Product): Promise<{ updatedCart: Product[], message: string }> => {
+export const addProductToCart = async (
+  product: Product
+): Promise<{ updatedCart: Product[]; message: string }> => {
   try {
-    const token = localStorage.getItem('jwtToken');
-    if (!token) throw new Error('User not logged in');
+    const token = localStorage.getItem("jwtToken");
+    if (!token) throw new Error("User not logged in");
 
-    const response = await axios.get('http://localhost:5000/api/cart', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await axios.get(
+      "https://cartify-backend-4djv.onrender.com/api/cart",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
-    const existingItem = response.data.cart.find((item: any) => item.productId === product.id);
-    
+    const existingItem = response.data.cart.find(
+      (item: any) => item.productId === product.id
+    );
+
     if (existingItem) {
       if (existingItem.quantity < 5) {
-        const updatedCart = await updateCartItem(product, existingItem.quantity + 1);
+        const updatedCart = await updateCartItem(
+          product,
+          existingItem.quantity + 1
+        );
         return {
           updatedCart,
-          message: ''
+          message: "",
         };
       } else {
         return {
@@ -111,60 +137,63 @@ export const addProductToCart = async (product: Product): Promise<{ updatedCart:
             image: item.image,
             quantity: item.quantity,
           })),
-          message: 'Maximum quantity reached for this item.'
+          message: "Maximum quantity reached for this item.",
         };
       }
     } else {
       const updatedCart = await updateCartItem(product, 1);
       return {
         updatedCart,
-        message: ''
+        message: "",
       };
     }
   } catch (error) {
-    console.error('Error adding product to cart:', error);
+    console.error("Error adding product to cart:", error);
     throw error;
   }
 };
 
 export const syncCartWithDatabase = async (cart: Product[]): Promise<void> => {
   try {
-    const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem("jwtToken");
     if (!token) return; // If no token, user is not logged in
 
     // For each item in the cart, send to database
     for (const item of cart) {
       await axios.post(
-        'http://localhost:5000/api/cart/add',
+        "https://cartify-backend-4djv.onrender.com/api/cart/add",
         {
           productId: item.id,
           title: item.title,
           price: item.price,
           quantity: item.quantity,
-          image: item.image
+          image: item.image,
         },
         {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
     }
   } catch (error) {
-    console.error('Error syncing cart with database:', error);
+    console.error("Error syncing cart with database:", error);
   }
 };
 
 export const loadCartFromDatabase = async (): Promise<Product[]> => {
   try {
-    const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem("jwtToken");
     if (!token) return []; // If no token, return empty cart
 
-    const response = await axios.get('http://localhost:5000/api/cart', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await axios.get(
+      "https://cartify-backend-4djv.onrender.com/api/cart",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
     return response.data.cart;
   } catch (error) {
-    console.error('Error loading cart from database:', error);
+    console.error("Error loading cart from database:", error);
     return [];
   }
 };
