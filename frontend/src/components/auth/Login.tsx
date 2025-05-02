@@ -40,19 +40,17 @@ const Login: React.FC = () => {
       setLoginError("");
 
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/admin/login`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: values.email.trim(),
-              password: values.password,
-            }),
-          }
-        );
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: values.email.trim(), password: values.password }),
+        });
+
+        // Check for empty or non-JSON response
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Server returned non-JSON response");
+        }
 
         const data = await response.json();
 
