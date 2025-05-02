@@ -22,6 +22,7 @@ export default defineConfig(({ mode }) => {
           secure: false,
         },
       },
+      historyApiFallback: true, 
     },
   }
 })
