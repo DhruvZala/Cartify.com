@@ -45,7 +45,7 @@ const ChangePassword: React.FC = () => {
 
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/auth/change-password`,
+          "https://cartify-backend-4djv.onrender.com/api/auth/change-password",
           {
             method: "POST",
             headers: {

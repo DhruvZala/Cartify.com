@@ -40,11 +40,17 @@ const Login: React.FC = () => {
       setLoginError("");
 
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: values.email.trim(), password: values.password }),
-        });
+        const response = await fetch(
+          "https://cartify-backend-4djv.onrender.com/api/auth/login",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: values.email.trim(),
+              password: values.password,
+            }),
+          }
+        );
 
         // Check for empty or non-JSON response
         const contentType = response.headers.get("content-type");

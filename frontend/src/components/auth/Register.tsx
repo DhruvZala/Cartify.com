@@ -59,7 +59,7 @@ const Register: React.FC = () => {
 
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/auth/register`,
+          "https://cartify-backend-4djv.onrender.com/api/auth/register",
           {
             method: "POST",
             headers: {
