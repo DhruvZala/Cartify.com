@@ -132,11 +132,14 @@ const CartPage: React.FC = () => {
 
             if (orderResponse.status === 201) {
               // Clear cart in database after successful payment
-              await axios.delete("http://localhost:5000/api/cart/clear", {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-                },
-              });
+              await axios.delete(
+                "https://cartify-backend-4djv.onrender.com/api/cart/clear",
+                {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+                  },
+                }
+              );
 
               alert(
                 `Payment successful! Order ID: ${orderResponse.data.order.orderId}`
