@@ -1,13 +1,23 @@
-import Login from "./components/auth/Login";
-import ProductPage from "./components/pages/ProductPage";
+import { lazy, Suspense } from "react";
 import "./index.css";
 import { BrowserRouter as Router, useRoutes } from "react-router-dom";
-import AdminDashboard from "./components/auth/AdminDashboard";
-import Cart from "./components/pages/Cart";
-import ProductDetailPage from "./components/pages/ProductDetailPage";
-import Register from "./components/auth/Register";
-import ChangePassword from "./components/auth/ChangePassword";
-import UserDetail from "./components/pages/UserDetail";
+
+// Lazy load components
+const Login = lazy(() => import("./components/auth/Login"));
+const ProductPage = lazy(() => import("./components/pages/ProductPage"));
+const AdminDashboard = lazy(() => import("./components/auth/AdminDashboard"));
+const Cart = lazy(() => import("./components/pages/Cart"));
+const ProductDetailPage = lazy(() => import("./components/pages/ProductDetailPage"));
+const Register = lazy(() => import("./components/auth/Register"));
+const ChangePassword = lazy(() => import("./components/auth/ChangePassword"));
+const UserDetail = lazy(() => import("./components/pages/UserDetail"));
+
+// Loading component
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+  </div>
+);
 
 const AppRoutes: React.FC = () => {
   const routes = [
@@ -27,7 +37,9 @@ const AppRoutes: React.FC = () => {
 
 const Root: React.FC = () => (
   <Router>
-    <AppRoutes />
+    <Suspense fallback={<LoadingSpinner />}>
+      <AppRoutes />
+    </Suspense>
   </Router>
 );
 
