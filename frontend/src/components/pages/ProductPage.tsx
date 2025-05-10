@@ -272,7 +272,7 @@ const ProductPage: React.FC = () => {
                   className={`flex items-center space-x-1 px-4 py-2 rounded-lg text-sm font-medium ${
                     currentPage === 1
                       ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"
+                      : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 cursor-pointer"
                   }`}
                 >
                   <ChevronLeft className="h-4 w-4" />
@@ -284,7 +284,7 @@ const ProductPage: React.FC = () => {
                     <button
                       key={index}
                       onClick={() => setCurrentPage(index + 1)}
-                      className={`px-4 py-2 text-sm rounded-lg font-medium ${
+                      className={`px-4 py-2 text-sm rounded-lg font-medium cursor-pointer ${
                         currentPage === index + 1
                           ? "bg-indigo-600 text-white"
                           : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"
@@ -303,7 +303,7 @@ const ProductPage: React.FC = () => {
                   className={`flex items-center space-x-1 px-4 py-2 rounded-lg text-sm font-medium ${
                     currentPage === totalPages
                       ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"
+                      : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 cursor-pointer"
                   }`}
                 >
                   <span>Next</span>
