@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Users, Package, LogOut } from "lucide-react";
 
-
 interface User {
   _id: string;
   name: string;
@@ -30,7 +29,6 @@ interface DashboardCardProps {
   count: number;
   icon: React.ReactNode;
 }
-
 
 const API_BASE_URL = "https://cartify-backend-4djv.onrender.com/api/admin";
 

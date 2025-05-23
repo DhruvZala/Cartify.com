@@ -38,7 +38,7 @@ router.post("/register", async (req, res) => {
     const token = jwt.sign(
       { userId: user.userId, email: user.email },
       JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: "1" }
     );
 
     res.status(201).json({
